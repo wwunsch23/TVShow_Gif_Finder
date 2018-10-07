@@ -1,0 +1,18 @@
+html {
+    background: url(../images/small_blue_tv.jpg) no-repeat center center fixed; 
+    background-size: cover;
+}
+
+body {
+    background: none;
+    color: white;
+}
+
+label {
+    _color: white;
+}
+
+.gif {
+    margin-bottom: 1rem;
+}
+
