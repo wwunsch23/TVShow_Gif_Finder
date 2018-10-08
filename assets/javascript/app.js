@@ -118,15 +118,16 @@ function makeFavorite(){
     if ($(".favorites-area").children().length -1 === 0){
         $("#saved-header").show();
     }
+    var imgName = $(this).attr("data-img-name");    
     var saveDiv = $("<div>")
-        .addClass("d-inline-block m-2");
-    var imgName = $(this).attr("data-img-name");
-    var newGIF = $("[data-name="+imgName+"]").clone()
-        .addClass("m-2");
+        .addClass("d-inline-block m-2")
+        .attr("data-name",imgName+"-saved");
+    var newGIF = $("[data-name="+imgName+"]").clone();
+        //.attr("data-name",imgName+"-saved");
     var removeButton = $("<button>")
         .text("Unsave GIF")
         .attr("type","button")
-        .attr("data-img-name",imgName)
+        .attr("data-img-name",imgName+"-saved")
         .addClass("btn btn-info m-1 btn-sm remove")
     saveDiv.append(newGIF);
     saveDiv.append(removeButton);
@@ -134,18 +135,33 @@ function makeFavorite(){
 }
 
 function removeFavorite(){
-
+    var imgName = $(this).attr("data-img-name");
+    var savedDiv = $("[data-name="+imgName+"]");
+    savedDiv.remove();
+    if ($(".favorites-area").children().length -1 === 0){
+        $("#saved-header").hide();
+    }
 }
 
 
 $("#tv-submit").on("click", function(event) {
     event.preventDefault();
-    var userText = $("#tv-input").val();
-    if (!checkTvArray(userText)){
-        tvShows.push(buttonName(userText));
+    if ($("#tv-input").val() !== ""){
+        var userText = $("#tv-input").val();
+        if (!checkTvArray(userText)){
+            tvShows.push(buttonName(userText));
+        }
+        renderButtons();
+        $("#tv-input").val("");
+    } else {
+        return;
     }
-    renderButtons();
-    $("#tv-input").val("");
+});
+
+$("#tv-clear").on("click", function(event) {
+    event.preventDefault();
+    $("#gify-area").empty();
+    $("#results-header").hide();
 });
 
 $(document).on("click", ".tv-show", displayTVInfo);
@@ -153,6 +169,8 @@ $(document).on("click", ".tv-show", displayTVInfo);
 $(document).on("click",".gif", animateGIF);
 
 $(document).on("click",".favorite",makeFavorite);
+
+$(document).on("click",".remove",removeFavorite);
 
 $(document).ready(function() {
     renderButtons();

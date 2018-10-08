@@ -6,10 +6,7 @@ html {
 body {
     background: none;
     color: white;
-}
-
-label {
-    _color: white;
+    font-family: 'Josefin Sans 400', sans-serif;
 }
 
 .gif {
@@ -25,10 +22,15 @@ label {
     color: black;
 }
 
+#tv-submit:hover {
+    background: #5AB424;
+}
+
 h2 {
     display:none;
 }
 
-.header-title {
+#header-title {
+    font-family: 'Josefin Sans 700', sans-serif;
     text-align: center;
 }
