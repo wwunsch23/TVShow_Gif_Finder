@@ -1,5 +1,5 @@
 
-var tvShows = ["friends", "seinfeld", "saved by the bell", "golden girls","cheers","game of thrones","law and order","arrested development","lost",
+var tvShows = ["friends", "seinfeld", "saved by the bell", "golden girls","gilmore girls","game of thrones","law and order","arrested development","lost",
 "simpsons"];
 
 function renderButtons() {
@@ -33,13 +33,40 @@ function checkTvArray(userText) {
     return lowerCaseTVShows.includes(userText.toLowerCase());      
 }
 
+function getRandomNumber(min, max) {
+    return Math.floor(Math.random() * (max - min) + min);
+}
+
+function createRandomArray (results) {
+    var randomGIFs = [];
+    var randomIndex = [];
+    var randNum;
+    var j=false;
+    for (var i=0; i<10;i++) {
+        while (j === false) {
+            randNum = getRandomNumber(0,results.length);
+            //console.log(randNum);
+            if (randomIndex.includes(randNum)===false) {
+                randomGIFs.push(results[randNum]);
+                randomIndex.push(randNum);
+                j = true;
+            }
+        }   
+        j=false;
+    }
+    return randomGIFs;
+}
+
+
 function displayTVInfo (){
+    $("#results-header").show();
     var title = $(this).attr("data-name");
+    var noSpaceTitle = title.replace(/\s/g,'');
     var url = "https://api.giphy.com/v1/gifs/search";
     var searchParams = {
       'api_key': "RFm8SxxwxUy8uSVlgyzAFtnNz5ncHf13",
       'q': "tv " +title,
-      'limit': 100,
+      'limit': 50,
       'lang':'en'
     }
     url += '?' + $.param(searchParams);
@@ -48,23 +75,29 @@ function displayTVInfo (){
         url: url,
         method: "GET"
     }).then(function(response) {
-        var results = response.data;
-        console.log(results);
+        var results = createRandomArray(response.data);
         for (var i = 0; i < results.length; i++) {
             var showDiv = $("<div>")
-                .addClass("d-inline-flex");
+                .addClass("d-inline-block m-2");
             var newP = $("<p>")
                 .text("Rating: "+results[i].rating.toUpperCase())
-                .addClass("m-2");
+                .addClass("mt-2 mr-2 mb-2");
             var showImage = $("<img>");
             var stillURL = results[i].images.fixed_height_still.url;
             showImage.attr("src", stillURL)
                 .attr("data-still",stillURL)
                 .attr("data-animate",results[i].images.fixed_height.url)
                 .attr("data-state","still")
+                .attr("data-name",noSpaceTitle+i)
                 .addClass("gif img-fluid");
+            var favButton = $("<button>")
+                .text("Save GIF")
+                .attr("type","button")
+                .attr("data-img-name",noSpaceTitle+i)
+                .addClass("btn btn-info m-1 btn-sm favorite")
             showDiv.append(newP);
             showDiv.append(showImage);
+            showDiv.append(favButton);
             $("#gify-area").prepend(showDiv);
         }
     });
@@ -81,6 +114,29 @@ function animateGIF () {
     }
 }
 
+function makeFavorite(){
+    if ($(".favorites-area").children().length -1 === 0){
+        $("#saved-header").show();
+    }
+    var saveDiv = $("<div>")
+        .addClass("d-inline-block m-2");
+    var imgName = $(this).attr("data-img-name");
+    var newGIF = $("[data-name="+imgName+"]").clone()
+        .addClass("m-2");
+    var removeButton = $("<button>")
+        .text("Unsave GIF")
+        .attr("type","button")
+        .attr("data-img-name",imgName)
+        .addClass("btn btn-info m-1 btn-sm remove")
+    saveDiv.append(newGIF);
+    saveDiv.append(removeButton);
+    saveDiv.appendTo( ".favorites-area" );
+}
+
+function removeFavorite(){
+
+}
+
 
 $("#tv-submit").on("click", function(event) {
     event.preventDefault();
@@ -95,6 +151,8 @@ $("#tv-submit").on("click", function(event) {
 $(document).on("click", ".tv-show", displayTVInfo);
 
 $(document).on("click",".gif", animateGIF);
+
+$(document).on("click",".favorite",makeFavorite);
 
 $(document).ready(function() {
     renderButtons();

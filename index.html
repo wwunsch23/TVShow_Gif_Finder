@@ -12,26 +12,35 @@
 <body>
     <div class="container">
         <div class="row">
+            <div class="col-md-12 col-sm-12 header-title">
+                <h1>TV Show GIF Finder</h1>
+            </div>
+        </div>
+        <div class="row">
             <div class="col-md-12 col-sm-12">
-                <header id="button-area"></header>
+                <div id="button-area"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 col-sm-12 favorites-area">
+                <h2 id="saved-header">Saved</h2>
             </div>
         </div>
         <div class="row" >
-            <div class="col-md-9 col-sm-7" id="gify-area"></div>
+            <div class="col-md-9 col-sm-7">
+                <h2 id="results-header">Search Results</h2>
+                <div id="gify-area"></div>
+            </div>
             <div class="col-md-3 col-sm-5" id="input-area">
                 <form id="newShow-form">
                     <div class="form-group">
-                      <label for="tv-input">Enter Your Favorite TV Show</label>
+                      <label for="tv-input">Enter A TV Show</label>
                       <input class="form-control" type="text" id="tv-input">
                     </div>
                     <button type="submit" class="btn btn-primary" id="tv-submit">Submit</button>
                   </form>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-12 col-sm-12 favorites-area"></div>
-        </div>
-
 
 
 
@@ -42,6 +51,6 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="assets/javascript/app.js"></script>
+    <script src="assets/javascript/appRandom.js"></script>
 </body>
 </html>

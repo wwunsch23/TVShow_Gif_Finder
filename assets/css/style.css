@@ -16,3 +16,19 @@ label {
     margin-bottom: 1rem;
 }
 
+.favorite, .remove {
+    display: block;
+}
+
+#tv-submit {
+    background:#6EE618;
+    color: black;
+}
+
+h2 {
+    display:none;
+}
+
+.header-title {
+    text-align: center;
+}
